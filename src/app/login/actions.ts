@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
+import { toast } from 'sonner'
 
 export async function login(formData: FormData) {
   const supabase = await createClient()
@@ -15,13 +16,10 @@ export async function login(formData: FormData) {
     password: formData.get('password') as string,
   }
 
-  console.log(data)
-
   const { error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
-    console.log(error)
-    redirect('/error')
+    toast.error(error.message)
   }
 
   revalidatePath('/', 'layout')
@@ -41,7 +39,7 @@ export async function signup(formData: FormData) {
   const { error } = await supabase.auth.signUp(data)
 
   if (error) {
-    redirect('/error')
+    toast.error(error.message)
   }
 
   revalidatePath('/', 'layout')

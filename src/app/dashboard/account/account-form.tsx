@@ -53,7 +53,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         setAvatarUrl(data.avatar_url)
       }
     } catch (error) {
-      alert('Error loading user data!')
+      toast.error('Error loading user data!')
     } finally {
       setLoading(false)
     }
